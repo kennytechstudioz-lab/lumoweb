@@ -20,6 +20,7 @@ import {
   Landmark 
 } from 'lucide-react';
 import { useToastStore } from '@/store/toastStore';
+import { getApiUrl } from '@/util/api';
 
 export default function UserProfilePage() {
   const { showToast } = useToastStore();
@@ -50,7 +51,7 @@ export default function UserProfilePage() {
   const fetchProfileData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -130,7 +131,7 @@ export default function UserProfilePage() {
 
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const dobTimestamp = dob ? new Date(dob).getTime() : 0;
 
@@ -188,7 +189,7 @@ export default function UserProfilePage() {
     setSubmittingKyc(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const passportValue = idCardFile || idCardFileName;
 

@@ -1,4 +1,4 @@
-name: Deploy Access Web
+name: Deploy Lumo Web
 
 on:
   push:
@@ -29,6 +29,12 @@ jobs:
             cd /var/www/projects/banking/lumo/web
             git reset --hard HEAD
             git pull origin main
+            cat << 'EOF' > .env.production
+NEXT_PUBLIC_API_URL=https://api.lumogroupintl.com/api
+NEXTAUTH_URL=https://lumogroupintl.com
+NEXTAUTH_SECRET=pYn8wB6V2fG9kL4mR5jT1hN3qS7xZ0vC
+AUTH_TRUST_HOST=true
+EOF
             npm install --legacy-peer-deps
             npm run build
             pm2 restart lumo-web || npx pm2 restart lumo-web

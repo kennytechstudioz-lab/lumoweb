@@ -23,6 +23,7 @@ import PinVerificationModal from '@/components/modals/PinVerificationModal';
 import CreatePinModal from '@/components/modals/CreatePinModal';
 import TacVerificationModal from '@/components/modals/TacVerificationModal';
 import ImfVerificationModal from '@/components/modals/ImfVerificationModal';
+import { getApiUrl } from '@/util/api';
 
 export default function Transfer() {
   const searchParams = useSearchParams();
@@ -74,7 +75,7 @@ export default function Transfer() {
   const fetchTransferData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const profileRes = await fetch(`${apiUrl}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -124,7 +125,7 @@ export default function Transfer() {
 
       try {
         const token = localStorage.getItem('token');
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const apiUrl = getApiUrl();
 
         const res = await fetch(`${apiUrl}/user/lookup-account?accountNumber=${encodeURIComponent(trimmed)}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -206,7 +207,7 @@ export default function Transfer() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/set-pin`, {
         method: 'POST',
@@ -246,7 +247,7 @@ export default function Transfer() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/validate-code`, {
         method: 'POST',
@@ -288,7 +289,7 @@ export default function Transfer() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/validate-code`, {
         method: 'POST',
@@ -330,7 +331,7 @@ export default function Transfer() {
     setRequestingTac(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/request-code`, {
         method: 'POST',
@@ -357,7 +358,7 @@ export default function Transfer() {
     setRequestingImf(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/request-code`, {
         method: 'POST',
@@ -384,7 +385,7 @@ export default function Transfer() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const response = await fetch(`${apiUrl}/user/transfer`, {
         method: 'POST',

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Landmark, CreditCard, ShieldAlert, CheckCircle, Plus, AlertCircle } from 'lucide-react';
+import { getApiUrl } from '@/util/api';
 
 export default function Cards() {
   const [cards, setCards] = useState<any[]>([]);
@@ -16,7 +17,7 @@ export default function Cards() {
   const fetchCardsAndProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const [cardsRes, profileRes] = await Promise.all([
         fetch(`${apiUrl}/user/cards`, { headers: { Authorization: `Bearer ${token}` } }),
@@ -53,7 +54,7 @@ export default function Cards() {
 
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/cards/request`, {
         method: 'POST',

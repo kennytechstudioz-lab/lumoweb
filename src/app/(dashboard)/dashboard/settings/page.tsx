@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Settings, Lock, ShieldCheck, Save, Key, Shield, CheckCircle, AlertCircle, Smartphone } from 'lucide-react';
 import { useToastStore } from '@/store/toastStore';
+import { getApiUrl } from '@/util/api';
 
 export default function UserSettingsPage() {
   const { showToast } = useToastStore();
@@ -29,7 +30,7 @@ export default function UserSettingsPage() {
   const fetchSettingsData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -67,7 +68,7 @@ export default function UserSettingsPage() {
     setSavingPin(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/set-pin`, {
         method: 'POST',
@@ -109,7 +110,7 @@ export default function UserSettingsPage() {
     setSavingPassword(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const res = await fetch(`${apiUrl}/user/change-password`, {
         method: 'POST',
@@ -139,7 +140,7 @@ export default function UserSettingsPage() {
     setToggling2fa(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       const targetStatus = !twoFactorEnabled;
 

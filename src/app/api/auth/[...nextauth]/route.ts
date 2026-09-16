@@ -70,7 +70,6 @@ const handler = NextAuth({
   pages: {
     signIn: '/login',
   },
-  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET || 'accessnationalbankvaultsecret987654321',
 });
 
