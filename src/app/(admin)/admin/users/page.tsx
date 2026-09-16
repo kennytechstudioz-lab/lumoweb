@@ -552,6 +552,13 @@ export default function UsersAdminPage() {
     setSendingBulkEmail(true);
 
     try {
+      const res: any = await api.post('/admin/emails/send', {
+        userIds: selectedUserIds,
+        subject: emailForm.subject,
+        content: emailForm.content,
+      });
+
+      // Also record an in-app notification entry for administrative audit
       const targetUsers = users.filter((u) => selectedUserIds.includes(u._id));
       for (const u of targetUsers) {
         await api.post('/admin/notifications', {
@@ -561,11 +568,12 @@ export default function UsersAdminPage() {
         }).catch(() => {});
       }
 
-      showToast(`Email template dispatched to ${targetUsers.length} selected users.`, 'success');
+      showToast(res?.message || `Email template dispatched to ${targetUsers.length} selected user(s).`, 'success');
       setIsEmailModalOpen(false);
       setSelectedUserIds([]);
     } catch (err: any) {
-      showToast('Error dispatching bulk emails.', 'error');
+      const errorMsg = err?.response?.data?.message || err?.message || 'Error dispatching bulk emails.';
+      showToast(errorMsg, 'error');
     } finally {
       setSendingBulkEmail(false);
     }

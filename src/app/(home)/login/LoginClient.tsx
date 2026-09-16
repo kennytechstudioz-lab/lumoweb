@@ -20,7 +20,7 @@ export default function LoginClient() {
     setLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5009/api';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
       const response = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -731,13 +731,13 @@ export default function Home() {
 
             </div>
 
-            {/* Floating Rectangular Div (half in red block/image bg, half outside in grey container) */}
-            <div className="absolute left-1/2 lg:left-[27%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-[280px] sm:w-[350px] h-[380px] sm:h-[630px] bg-slate-200 border border-slate-300 shadow-xl z-30 flex flex-col items-center justify-center rounded-sm text-slate-400 select-none">
-              <svg className="w-16 h-16 mb-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-              </svg>
-              <span className="font-extrabold text-sm uppercase tracking-wider text-slate-500">Mobile Phones</span>
-              <span className="text-[11px] text-slate-400 mt-1">Placeholder Container</span>
+            {/* Floating Mobile Phone Mockup */}
+            <div className="absolute left-1/2 lg:left-[27%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-[260px] sm:w-[310px] md:w-[330px] z-30 rounded-[2rem] shadow-2xl overflow-hidden border-[6px] border-slate-900 bg-slate-950">
+              <img 
+                src="/images/mobile.jpeg" 
+                alt="Lumo Mobile Banking App" 
+                className="w-full h-auto object-cover block"
+              />
             </div>
 
           </div>
@@ -883,11 +883,14 @@ export default function Home() {
 
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {blogs
-              .filter((b) => !b.category || b.category.toLowerCase() === 'blog')
+            {(blogs.filter((b) => !b.category || b.category.toLowerCase() === 'blog').length > 0
+              ? blogs.filter((b) => !b.category || b.category.toLowerCase() === 'blog')
+              : blogs
+            )
               .slice(0, 3)
               .map((blog) => {
-                const dateStr = new Date(blog.time * 1000).toLocaleDateString(undefined, {
+                const timestamp = blog.time ? (blog.time > 1e11 ? blog.time : blog.time * 1000) : Date.now();
+                const dateStr = new Date(timestamp).toLocaleDateString(undefined, {
                   month: 'short',
                   day: 'numeric',
                   year: 'numeric',

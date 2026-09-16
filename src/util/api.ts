@@ -5,7 +5,7 @@ const getAuthHeaders = (): Record<string, string> => {
 };
 
 const getApiUrl = (): string => {
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5009/api';
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
 };
 
 export async function apiFetch<T = any>(

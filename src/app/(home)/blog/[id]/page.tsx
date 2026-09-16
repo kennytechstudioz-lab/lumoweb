@@ -9,7 +9,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5009/api';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
     const res = await fetch(`${apiUrl}/admin/blogs/${id}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch blog');
     const blog = await res.json();

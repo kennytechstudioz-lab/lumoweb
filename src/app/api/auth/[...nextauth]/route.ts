@@ -15,7 +15,7 @@ const handler = NextAuth({
         }
 
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5009/api';
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
           const res = await fetch(`${apiUrl}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

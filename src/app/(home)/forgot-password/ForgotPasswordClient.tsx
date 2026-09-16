@@ -17,7 +17,7 @@ export default function ForgotPasswordClient() {
 
     try {
       // Send reset request if API endpoint available or display verification prompt
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5009/api';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
       await fetch(`${apiUrl}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
