@@ -17,6 +17,7 @@ import {
   Wifi 
 } from 'lucide-react';
 import { useToastStore } from '@/store/toastStore';
+import { getApiUrl } from '@/util/api';
 
 export default function DashboardOverview() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function DashboardOverview() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+      const apiUrl = getApiUrl();
 
       // Fetch Profile
       const profileRes = await fetch(`${apiUrl}/user/profile`, {

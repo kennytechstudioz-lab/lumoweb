@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useToastStore } from '@/store/toastStore';
 import { useNotificationsStore } from '@/store/notificationsStore';
+import { getApiUrl } from '@/util/api';
 
 export default function WebSocketListener({ role, username }: { role?: string; username?: string }) {
   const { showToast } = useToastStore();
@@ -16,15 +17,15 @@ export default function WebSocketListener({ role, username }: { role?: string; u
 
     const connect = () => {
       try {
-        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const apiHost = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const apiHost = getApiUrl();
         
         let wsHost = '';
         if (apiHost.startsWith('http')) {
           const urlObj = new URL(apiHost);
           wsHost = `${urlObj.protocol === 'https:' ? 'wss:' : 'ws:'}//${urlObj.host}/ws`;
         } else {
-          wsHost = `${wsProtocol}//${window.location.hostname}:5001/ws`;
+          const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+          wsHost = `${wsProtocol}//${window.location.hostname}:5012/ws`;
         }
 
         socket = new WebSocket(wsHost);

@@ -4,7 +4,27 @@ const getAuthHeaders = (): Record<string, string> => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-const getApiUrl = (): string => {
+export const getApiUrl = (): string => {
+  // 1. If explicit environment variable is set and not localhost, use it
+  if (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes('localhost')) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+
+  // 2. Client-side browser execution: check current window location
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+    // If running in production domain or any external hostname, point to live production API
+    if (hostname && hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return 'https://api.lumogroupintl.com/api';
+    }
+  }
+
+  // 3. Server-side in production environment
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://api.lumogroupintl.com/api';
+  }
+
+  // 4. Default for local development
   return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
 };
 

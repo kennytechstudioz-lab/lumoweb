@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Landmark, Mail, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { getApiUrl } from '@/util/api';
 
 export default function ForgotPasswordClient() {
   const [accountIdentifier, setAccountIdentifier] = useState('');
@@ -17,7 +18,7 @@ export default function ForgotPasswordClient() {
 
     try {
       // Send reset request if API endpoint available or display verification prompt
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
+      const apiUrl = getApiUrl();
       await fetch(`${apiUrl}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

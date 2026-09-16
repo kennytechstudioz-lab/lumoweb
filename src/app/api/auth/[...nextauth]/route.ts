@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { getApiUrl } from '@/util/api';
 
 const handler = NextAuth({
   providers: [
@@ -15,7 +16,7 @@ const handler = NextAuth({
         }
 
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
+          const apiUrl = getApiUrl();
           const res = await fetch(`${apiUrl}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -25,10 +26,16 @@ const handler = NextAuth({
             }),
           });
 
-          const data = await res.json();
+          const text = await res.text();
+          let data: any = null;
+          try {
+            data = text ? JSON.parse(text) : null;
+          } catch {
+            return null;
+          }
 
-          if (!res.ok || !data.token) {
-            throw new Error(data.message || 'Verification failed');
+          if (!res.ok || !data?.token) {
+            throw new Error(data?.message || 'Verification failed');
           }
 
           return {
@@ -63,6 +70,7 @@ const handler = NextAuth({
   pages: {
     signIn: '/login',
   },
+  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET || 'accessnationalbankvaultsecret987654321',
 });
 

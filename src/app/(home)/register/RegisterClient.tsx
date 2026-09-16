@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Landmark, User, Mail, Lock, Phone, MapPin, Calendar, ArrowRight, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { currencies } from '@/util/countries';
+import { getApiUrl } from '@/util/api';
 
 export default function RegisterClient() {
   const router = useRouter();
@@ -17,6 +18,8 @@ export default function RegisterClient() {
     country: 'United States',
     address: '',
     dob: '',
+    pin: '',
+    baseCurrency: 'USD',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -28,17 +31,23 @@ export default function RegisterClient() {
     setLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
+      const apiUrl = getApiUrl();
       const response = await fetch(`${apiUrl}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data: any = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        throw new Error('Unable to connect to registration server. Please try again.');
+      }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+      if (!response.ok || !data) {
+        throw new Error(data?.message || 'Registration failed');
       }
 
       // Clear any previous session so user must log in explicitly

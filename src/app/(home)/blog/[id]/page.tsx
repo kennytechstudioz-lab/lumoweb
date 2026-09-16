@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import BlogDetailsClient from './BlogDetailsClient';
+import { getApiUrl } from '@/util/api';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -9,7 +10,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
+    const apiUrl = getApiUrl();
     const res = await fetch(`${apiUrl}/admin/blogs/${id}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch blog');
     const blog = await res.json();

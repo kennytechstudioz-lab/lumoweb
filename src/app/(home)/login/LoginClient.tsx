@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Landmark, Lock, User, AlertCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+import { getApiUrl } from '@/util/api';
 
 export default function LoginClient() {
   const [username, setUsername] = useState('');
@@ -20,28 +21,34 @@ export default function LoginClient() {
     setLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5012/api';
+      const apiUrl = getApiUrl();
       const response = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data: any = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        throw new Error('Unable to connect to login server. Please verify your internet connection and try again.');
+      }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+      if (!response.ok || !data?.token) {
+        throw new Error(data?.message || 'Login failed. Please check your username and password.');
       }
 
       // Sync with NextAuth session
-      const nextAuthResult = await signIn('credentials', {
-        redirect: false,
-        username,
-        password,
-      });
-
-      if (nextAuthResult?.error) {
-        throw new Error(nextAuthResult.error || 'NextAuth session creation failed');
+      try {
+        await signIn('credentials', {
+          redirect: false,
+          username,
+          password,
+        });
+      } catch (authErr) {
+        console.warn('NextAuth sync warning:', authErr);
       }
 
       // Save token and user details for legacy layout queries
@@ -49,7 +56,7 @@ export default function LoginClient() {
       localStorage.setItem('user', JSON.stringify(data.user));
 
       // Redirect based on role
-      if (data.user.status === 'Admin') {
+      if (data.user?.status === 'Admin') {
         router.push('/admin');
       } else {
         router.push('/dashboard');
