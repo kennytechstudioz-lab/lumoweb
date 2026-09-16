@@ -97,10 +97,10 @@ export default function Header() {
       <nav className="sticky-nav bg-nav-bg text-nav-fg border-b border-slate-200">
         <div className="max-w-[1380px] mx-auto flex justify-between items-center h-20 px-[10px] sm:px-8 md:px-12 relative">
 
-          
+
           <div className="absolute left-4 sm:left-8 md:left-12 top-0 bottom-0 flex items-center pr-8 z-10">
             <Link href="/#top" onClick={(e) => handleNavClick(e, 'top')} className="slant-bg h-full px-6 sm:px-10 flex items-center shadow-lg animate-fadeIn">
-              <img src="/images/AccessWhiteLogo.png" alt="Access National Bank" className="h-8 w-auto object-contain" />
+              <img src="/images/LumoWhiteLogo.png" alt="Lumo Group Bank" className="h-14 w-auto object-contain" />
             </Link>
           </div>
 
@@ -158,7 +158,7 @@ export default function Header() {
                 <User size={20} />
               </Link>
             )}
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 text-slate-700 hover:text-primary focus:outline-none cursor-pointer"
             >

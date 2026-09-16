@@ -14,22 +14,22 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Access National Bank | Premier Digital & Commercial Banking',
-    template: '%s | Access National Bank',
+    default: 'Lumo Group Bank | Premier Digital & Commercial Banking',
+    template: '%s | Lumo Group Bank',
   },
-  description: 'Access National Bank provides secure multi-currency accounts, international wire transfers, checking vaults, and wealth management services globally.',
-  keywords: ['Access National Bank', 'Online Banking', 'Multi-currency Account', 'International Transfers', 'Commercial Banking', 'Digital Vault'],
-  authors: [{ name: 'Access National Bank' }],
+  description: 'Lumo Group Bank provides secure multi-currency accounts, international wire transfers, checking vaults, and wealth management services globally.',
+  keywords: ['Lumo Group Bank', 'Online Banking', 'Multi-currency Account', 'International Transfers', 'Commercial Banking', 'Digital Vault'],
+  authors: [{ name: 'Lumo Group Bank' }],
   openGraph: {
-    title: 'Access National Bank | Premier Digital & Commercial Banking',
-    description: 'Access National Bank provides secure multi-currency accounts, international wire transfers, checking vaults, and wealth management services globally.',
-    siteName: 'Access National Bank',
+    title: 'Lumo Group Bank | Premier Digital & Commercial Banking',
+    description: 'Lumo Group Bank provides secure multi-currency accounts, international wire transfers, checking vaults, and wealth management services globally.',
+    siteName: 'Lumo Group Bank',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Access National Bank | Premier Digital & Commercial Banking',
-    description: 'Access National Bank provides secure multi-currency accounts, international wire transfers, checking vaults, and wealth management services globally.',
+    title: 'Lumo Group Bank | Premier Digital & Commercial Banking',
+    description: 'Lumo Group Bank provides secure multi-currency accounts, international wire transfers, checking vaults, and wealth management services globally.',
   },
 };
 

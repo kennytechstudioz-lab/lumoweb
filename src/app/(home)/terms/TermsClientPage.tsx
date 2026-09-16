@@ -38,7 +38,7 @@ export default function TermsClientPage() {
             {terms?.title || 'Terms & Conditions'}
           </h1>
           <p className="text-slate-200 text-sm max-w-2xl font-light leading-relaxed">
-            Please read these terms carefully before utilizing Access National Bank online services, opening checking accounts, or conducting electronic fund transfers.
+            Please read these terms carefully before utilizing Lumo Group Bank online services, opening checking accounts, or conducting electronic fund transfers.
           </p>
         </div>
 

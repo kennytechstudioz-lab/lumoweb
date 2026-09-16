@@ -29,7 +29,7 @@ export default function SuccessClientPage() {
             Registration Successful!
           </h1>
           <p className="text-slate-500 text-xs sm:text-sm font-light leading-relaxed">
-            Welcome to <strong className="text-slate-800 font-semibold">Access National Bank</strong>. Your online banking account has been successfully created.
+            Welcome to <strong className="text-slate-800 font-semibold">Lumo Group Bank</strong>. Your online banking account has been successfully created.
           </p>
           <p className="text-slate-400 text-xs font-light">
             Please log in with your registered credentials to access your banking vault.

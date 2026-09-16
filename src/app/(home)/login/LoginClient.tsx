@@ -70,7 +70,7 @@ export default function LoginClient() {
           <div className="p-3 bg-red-50 rounded-xl text-primary animate-pulse">
             <Landmark size={32} />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Access National</h1>
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Lumo Group</h1>
           <p className="text-slate-400 text-xs font-light">Enter credentials to access your secure bank vaults.</p>
         </div>
 

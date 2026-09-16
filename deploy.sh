@@ -6,10 +6,10 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$PATH:/usr/local/bin:~/.npm-global/bin
 
 echo "=============================="
-echo "  Access Web — Auto Deploy"
+echo "  Lumo Web — Auto Deploy"
 echo "=============================="
 
-PROJECT_DIR="/var/www/projects/banking/access/web"
+PROJECT_DIR="/var/www/projects/banking/lumo/web"
 
 echo "[1/5] Navigating to project..."
 cd "$PROJECT_DIR"
@@ -23,9 +23,9 @@ npm install --legacy-peer-deps
 echo "[4/5] Building Next.js app..."
 npm run build
 
-echo "[5/5] Restarting PM2 process: access-web..."
-pm2 restart access-web || npx pm2 restart access-web
+echo "[5/5] Restarting PM2 process: lumo-web..."
+pm2 restart lumo-web || npx pm2 restart lumo-web
 
 echo ""
-echo "✅ Access Web deployed successfully!"
+echo "✅ Lumo Web deployed successfully!"
 

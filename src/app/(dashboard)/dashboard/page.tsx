@@ -335,7 +335,7 @@ export default function DashboardOverview() {
                   {/* Top Row: Bank Brand & Contactless Symbol */}
                   <div className="flex justify-between items-start relative z-10">
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold tracking-wider uppercase opacity-90">Access National</span>
+                      <span className="text-xs font-bold tracking-wider uppercase opacity-90">Lumo Group</span>
                       <span className="text-[9px] uppercase tracking-widest text-white/70 font-mono">Debit Card</span>
                     </div>
                     <div className="flex items-center gap-3">

@@ -38,7 +38,7 @@ export default function PrivacyClientPage() {
             {terms?.privacyTitle || 'Privacy Policy'}
           </h1>
           <p className="text-slate-200 text-sm max-w-2xl font-light leading-relaxed">
-            Discover our commitments to user privacy, bank-grade encryption protocols, and how Access National Bank collects and protects your financial data.
+            Discover our commitments to user privacy, bank-grade encryption protocols, and how Lumo Group Bank collects and protects your financial data.
           </p>
         </div>
 

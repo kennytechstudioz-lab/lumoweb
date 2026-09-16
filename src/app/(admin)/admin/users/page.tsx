@@ -208,14 +208,14 @@ export default function UsersAdminPage() {
         {
           _id: 'default-welcome',
           name: 'Welcome & Account Clearance',
-          title: 'Welcome to Access National Bank - Account Clearance',
-          content: 'Dear Valued Client,\n\nYour online banking vault has been fully initialized and activated. You can now access multi-currency transfers and real-time ledger services.\n\nBest Regards,\nAccess National Bank Administration',
+          title: 'Welcome to Lumo Group Bank - Account Clearance',
+          content: 'Dear Valued Client,\n\nYour online banking vault has been fully initialized and activated. You can now access multi-currency transfers and real-time ledger services.\n\nBest Regards,\nLumo Group Bank Administration',
         },
         {
           _id: 'default-kyc',
           name: 'KYC Document Audit Notice',
           title: 'Identity Verification Clearance Required',
-          content: 'Dear Client,\n\nTo ensure uninterrupted international transfers, please upload your identity clearance documentation under your dashboard KYC settings.\n\nAccess National Audit Desk',
+          content: 'Dear Client,\n\nTo ensure uninterrupted international transfers, please upload your identity clearance documentation under your dashboard KYC settings.\n\nLumo Group Audit Desk',
         },
         {
           _id: 'default-security',
@@ -364,7 +364,7 @@ export default function UsersAdminPage() {
       description: 'System Manual Adjustment Entry',
       senderName: 'System Admin',
       receiverName: user.fullName || user.username,
-      receiverBank: 'Access National Bank',
+      receiverBank: 'Lumo Group Bank',
       receiverAccountNumber: user.accountNumber || '',
       status: 'Approved',
     });

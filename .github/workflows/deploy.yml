@@ -26,12 +26,12 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             export PATH=$PATH:/usr/local/bin:~/.npm-global/bin
-            cd /var/www/projects/banking/access/web
+            cd /var/www/projects/banking/lumo/web
             git reset --hard HEAD
             git pull origin main
             npm install --legacy-peer-deps
             npm run build
-            pm2 restart access-web || npx pm2 restart access-web
-            echo "✅ Access Web restarted successfully."
+            pm2 restart lumo-web || npx pm2 restart lumo-web
+            echo "✅ Lumo Web restarted successfully."
 
 

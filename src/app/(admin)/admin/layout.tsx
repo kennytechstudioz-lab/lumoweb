@@ -142,7 +142,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="overflow-y-auto flex-1 scrollbar-thin">
           <div className="h-20 flex items-center px-6 border-b border-red-800">
             <Link href="/">
-              <img src="/images/AccessWhiteLogo.png" alt="Access National Bank" className="h-8 w-auto object-contain hover:opacity-80 transition-opacity" />
+              <img src="/images/LumoWhiteLogo.png" alt="Lumo Group Bank" className="h-8 w-auto object-contain hover:opacity-80 transition-opacity" />
             </Link>
           </div>
 
@@ -253,7 +253,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Menu size={24} />
             </button>
             <h2 className="font-extrabold text-slate-900 text-xs sm:text-base uppercase tracking-wider">
-              Access National Regulatory Audit Panel
+              Lumo Group Regulatory Audit Panel
             </h2>
           </div>
           
@@ -313,7 +313,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="overflow-y-auto flex-1 scrollbar-thin">
               <div className="h-20 flex items-center justify-between px-6 border-b border-red-800">
                 <Link href="/" onClick={() => setSidebarOpen(false)}>
-                  <img src="/images/AccessWhiteLogo.png" alt="Access National Bank" className="h-8 w-auto object-contain" />
+                  <img src="/images/LumoWhiteLogo.png" alt="Lumo Group Bank" className="h-8 w-auto object-contain" />
                 </Link>
                 <button onClick={() => setSidebarOpen(false)} className="text-white hover:text-red-200 cursor-pointer">
                   <X size={20} />

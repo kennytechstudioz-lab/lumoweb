@@ -147,7 +147,7 @@ export default function InjectTxModal({
                   type="text"
                   value={txForm.receiverBank}
                   onChange={(e) => setTxForm({ ...txForm, receiverBank: e.target.value })}
-                  placeholder="Access National Bank"
+                  placeholder="Lumo Group Bank"
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 font-semibold focus:outline-none focus:border-primary text-slate-800"
                 />
               </div>

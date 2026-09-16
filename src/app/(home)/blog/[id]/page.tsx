@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const blog = await res.json();
 
     return {
-      title: `${blog.title} | Access National Bank Insights`,
-      description: blog.subtitle || blog.content?.substring(0, 160) || 'Read banking insights from Access National Bank.',
+      title: `${blog.title} | Lumo Group Bank Insights`,
+      description: blog.subtitle || blog.content?.substring(0, 160) || 'Read banking insights from Lumo Group Bank.',
       openGraph: {
         title: blog.title,
         description: blog.subtitle || blog.content?.substring(0, 160),
@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   } catch (e) {
     return {
-      title: 'Banking Insights & Articles | Access National Bank',
-      description: 'Read the latest financial tips and corporate announcements from Access National Bank.',
+      title: 'Banking Insights & Articles | Lumo Group Bank',
+      description: 'Read the latest financial tips and corporate announcements from Lumo Group Bank.',
     };
   }
 }

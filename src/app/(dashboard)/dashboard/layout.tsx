@@ -20,7 +20,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { Suspense } from 'react';
-import SmartSuppWidget from '@/components/SmartSuppWidget';
+import TawkToWidget from '@/components/TawkToWidget';
 import WebSocketListener from '@/components/WebSocketListener';
 import { useToastStore } from '@/store/toastStore';
 import { useNotificationsStore } from '@/store/notificationsStore';
@@ -129,7 +129,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         <div className="overflow-y-auto flex-1 scrollbar-thin">
           <div className="h-20 flex items-center px-6 border-b border-red-800">
             <Link href="/">
-              <img src="/images/AccessWhiteLogo.png" alt="Access National Bank" className="h-8 w-auto object-contain hover:opacity-80 transition-opacity" />
+              <img src="/images/LumoWhiteLogo.png" alt="Lumo Group Bank" className="h-8 w-auto object-contain hover:opacity-80 transition-opacity" />
             </Link>
           </div>
 
@@ -256,7 +256,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
           <aside className="w-64 bg-primary text-white flex flex-col h-full animate-slideIn justify-between">
             <div className="overflow-y-auto flex-1 scrollbar-thin">
               <div className="h-20 flex items-center justify-between px-6 border-b border-red-800">
-                <img src="/images/AccessWhiteLogo.png" alt="Access National Bank" className="h-8 w-auto object-contain" />
+                <img src="/images/LumoWhiteLogo.png" alt="Lumo Group Bank" className="h-8 w-auto object-contain" />
                 <button
                   onClick={() => setSidebarOpen(false)}
                   className="text-white hover:text-red-200 cursor-pointer"
@@ -328,7 +328,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         })}
       </div>
 
-      <SmartSuppWidget />
+      <TawkToWidget />
       <WebSocketListener username={currentUser?.username} />
     </div>
   );

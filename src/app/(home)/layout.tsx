@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '@/components/Home/Header';
 import Footer from '@/components/Home/Footer';
-import SmartSuppWidget from '@/components/SmartSuppWidget';
+import TawkToWidget from '@/components/TawkToWidget';
 
 export default function HomeLayout({
   children,
@@ -13,7 +13,7 @@ export default function HomeLayout({
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
-      <SmartSuppWidget />
+      <TawkToWidget />
     </div>
   );
 }

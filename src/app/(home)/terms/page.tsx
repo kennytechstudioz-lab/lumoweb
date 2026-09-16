@@ -3,11 +3,11 @@ import { Metadata } from 'next';
 import TermsClientPage from './TermsClientPage';
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions | Access National Bank',
-  description: 'Read the official Terms and Conditions governing your accounts, transfers, digital banking services, and security protocols at Access National Bank.',
+  title: 'Terms & Conditions | Lumo Group Bank',
+  description: 'Read the official Terms and Conditions governing your accounts, transfers, digital banking services, and security protocols at Lumo Group Bank.',
   openGraph: {
-    title: 'Terms & Conditions | Access National Bank',
-    description: 'Read the official Terms and Conditions governing your accounts, transfers, digital banking services, and security protocols at Access National Bank.',
+    title: 'Terms & Conditions | Lumo Group Bank',
+    description: 'Read the official Terms and Conditions governing your accounts, transfers, digital banking services, and security protocols at Lumo Group Bank.',
     type: 'website',
   },
 };

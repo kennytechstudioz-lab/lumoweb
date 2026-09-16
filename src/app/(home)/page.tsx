@@ -314,7 +314,7 @@ export default function Home() {
               Financial Guidance for Every Stage of Life.
             </h2>
             <p className="text-slate-500 text-base sm:text-lg md:text-xl font-light leading-relaxed mb-4">
-              At Access National Bank, we combine cutting-edge security with tailored financial solutions. From multi-currency checking accounts to high-yield savings and international wire clearance, we empower individuals and corporate clients globally.
+              At Lumo Group Bank, we combine cutting-edge security with tailored financial solutions. From multi-currency checking accounts to high-yield savings and international wire clearance, we empower individuals and corporate clients globally.
             </p>
 
             {/* Bullet list with icons */}
@@ -788,7 +788,7 @@ export default function Home() {
                 ★ ★ ★ ★ ★
               </div>
               <p className="text-slate-500 text-sm font-light leading-relaxed italic text-center">
-                &ldquo;Access National Bank transformed how our international team handles cross-border payroll. Wire transfers clear in minutes and multi-currency accounts save us thousands on conversion fees.&rdquo;
+                &ldquo;Lumo Group Bank transformed how our international team handles cross-border payroll. Wire transfers clear in minutes and multi-currency accounts save us thousands on conversion fees.&rdquo;
               </p>
             </div>
 

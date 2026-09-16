@@ -139,10 +139,10 @@ export default function Transfer() {
           });
           setReceiverName(data.fullName);
         } else {
-          setAccountError(data.message || 'Account not found in Access National Bank ledger.');
+          setAccountError(data.message || 'Account not found in Lumo Group Bank ledger.');
         }
       } catch (err) {
-        setAccountError('Account not found in Access National Bank ledger.');
+        setAccountError('Account not found in Lumo Group Bank ledger.');
       } finally {
         setLookingUp(false);
       }
@@ -398,7 +398,7 @@ export default function Transfer() {
           currency,
           receiverAccountNumber,
           receiverName: transferType === 'internal' ? (foundBeneficiary?.fullName || receiverName) : receiverName,
-          receiverBank: transferType === 'internal' ? 'Access National Bank' : receiverBank,
+          receiverBank: transferType === 'internal' ? 'Lumo Group Bank' : receiverBank,
           swiftCode: transferType === 'wire' ? swiftCode : '',
           routineNumber,
           receiverAddress,

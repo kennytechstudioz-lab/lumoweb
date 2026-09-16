@@ -19,10 +19,10 @@ export default function Footer() {
         {/* Logo & Description */}
         <div className="flex flex-col gap-4">
           <Link href="/#top" className="flex items-center">
-            <img src="/images/AccessRedLogo.png" alt="Access National Bank" className="h-10 w-auto object-contain" />
+            <img src="/images/LumoRedLogo.png" alt="Lumo Group Bank" className="h-10 w-auto object-contain" />
           </Link>
           <p className="text-sm font-light leading-relaxed">
-            Access National Bank is a premier global financial institution offering state-of-the-art multi-currency checking, savings, and investment solutions. We empower your international wealth management.
+            Lumo Group Bank is a premier global financial institution offering state-of-the-art multi-currency checking, savings, and investment solutions. We empower your international wealth management.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-[10px] sm:px-8 mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-light text-slate-500">
-        <p>&copy; {new Date().getFullYear()} Access National Bank. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Lumo Group Bank. All rights reserved.</p>
         <div className="flex gap-6">
           <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
           <Link href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link>
