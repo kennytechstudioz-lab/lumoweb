@@ -13,6 +13,14 @@ export default function UserNotificationsPage() {
 
   const unreadCount = getUnreadCount();
 
+  const cleanNotificationText = (text?: string) => {
+    if (!text) return '';
+    return text
+      .replace(/\{{1,2}\s*idType\s*\}{1,2}/gi, 'International Passport')
+      .replace(/\{{1,2}\s*id_type\s*\}{1,2}/gi, 'International Passport')
+      .replace(/\{{1,2}\s*docType\s*\}{1,2}/gi, 'International Passport');
+  };
+
   return (
     <div className="flex flex-col gap-6 font-sans">
       {/* Title & Actions Header */}
@@ -75,7 +83,7 @@ export default function UserNotificationsPage() {
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <h3 className={`text-xs font-bold ${isUnread ? 'text-slate-900 font-extrabold' : 'text-slate-700'}`}>
-                          {n.title || 'Account Notification'}
+                          {cleanNotificationText(n.title || 'Account Notification')}
                         </h3>
                         {isUnread && (
                           <span className="bg-primary text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
@@ -89,7 +97,9 @@ export default function UserNotificationsPage() {
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-600 font-light leading-relaxed">{n.content || n.message}</p>
+                    <p className="text-xs text-slate-600 font-light leading-relaxed">
+                      {cleanNotificationText(n.content || n.message)}
+                    </p>
                   </div>
 
                   {isUnread ? (
