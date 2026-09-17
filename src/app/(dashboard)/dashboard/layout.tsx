@@ -25,6 +25,7 @@ import WebSocketListener from '@/components/WebSocketListener';
 import { useToastStore } from '@/store/toastStore';
 import { useNotificationsStore } from '@/store/notificationsStore';
 import { useSearchParams } from 'next/navigation';
+import { getApiUrl } from '@/util/api';
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -63,7 +64,42 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     } catch (e) {
       localStorage.clear();
       router.push('/login');
+      return;
     }
+
+    // Refresh user profile in background to get latest profilePicture and verification status
+    const refreshProfile = async () => {
+      try {
+        const apiUrl = getApiUrl();
+        const res = await fetch(`${apiUrl}/user/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const freshUser = await res.json();
+          setCurrentUser((prev: any) => ({ ...(prev || {}), ...freshUser }));
+          const stored = localStorage.getItem('user');
+          if (stored) {
+            try {
+              const parsed = JSON.parse(stored);
+              localStorage.setItem('user', JSON.stringify({ ...parsed, ...freshUser }));
+            } catch (err) {}
+          }
+        }
+      } catch (err) {
+        console.error('Error refreshing profile in layout:', err);
+      }
+    };
+
+    refreshProfile();
+
+    const handleUserUpdated = () => {
+      refreshProfile();
+    };
+
+    window.addEventListener('userUpdated', handleUserUpdated);
+    return () => {
+      window.removeEventListener('userUpdated', handleUserUpdated);
+    };
   }, [router]);
 
   const handleLogout = () => {
@@ -161,15 +197,23 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         {/* Sidebar Footer User info & Logout */}
         <div className="p-4 flex flex-col gap-3 border-t border-red-800">
           <div className="flex items-center gap-3 px-2 py-1">
-            <div className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-sm border border-white/20 uppercase">
-              {currentUser.username ? currentUser.username[0] : 'U'}
+            <div className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-sm border border-white/20 uppercase overflow-hidden flex-shrink-0">
+              {currentUser?.profilePicture ? (
+                <img
+                  src={currentUser.profilePicture}
+                  alt={currentUser.username || 'User'}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span>{currentUser?.username ? currentUser.username[0] : 'U'}</span>
+              )}
             </div>
             <div className="flex flex-col">
               <span className="text-xs font-bold text-white leading-tight truncate max-w-[130px]">
-                {currentUser.username}
+                {currentUser?.username}
               </span>
               <span className="text-[10px] text-red-200 font-mono tracking-wider mt-0.5 truncate max-w-[130px]">
-                Acc: {currentUser.accountNumber}
+                Acc: {currentUser?.accountNumber}
               </span>
             </div>
           </div>
@@ -197,7 +241,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
               <Menu size={24} />
             </button>
             <h2 className="font-extrabold text-slate-900 text-sm sm:text-base tracking-wide">
-              Welcome, <span className="text-primary">{currentUser.username}</span>
+              Welcome, <span className="text-primary">{currentUser?.username}</span>
             </h2>
           </div>
 
@@ -223,11 +267,19 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
               <Link
                 href="/dashboard/profile"
-                className="p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 rounded-full transition-colors cursor-pointer"
+                className="p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 rounded-full transition-colors cursor-pointer"
                 title="Profile"
               >
-                <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase border border-primary/20">
-                  {currentUser.fullName ? currentUser.fullName[0] : currentUser.username[0]}
+                <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase border border-primary/20 overflow-hidden">
+                  {currentUser?.profilePicture ? (
+                    <img
+                      src={currentUser.profilePicture}
+                      alt={currentUser.fullName || currentUser.username || 'Profile'}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span>{currentUser?.fullName ? currentUser.fullName[0] : (currentUser?.username ? currentUser.username[0] : 'U')}</span>
+                  )}
                 </div>
               </Link>
 
@@ -291,6 +343,28 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className="p-4 border-t border-red-800 flex flex-col gap-3">
+              <div className="flex items-center gap-3 px-2 py-1">
+                <div className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-sm border border-white/20 uppercase overflow-hidden flex-shrink-0">
+                  {currentUser?.profilePicture ? (
+                    <img
+                      src={currentUser.profilePicture}
+                      alt={currentUser.username || 'User'}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span>{currentUser?.username ? currentUser.username[0] : 'U'}</span>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-white leading-tight truncate max-w-[130px]">
+                    {currentUser?.username}
+                  </span>
+                  <span className="text-[10px] text-red-200 font-mono tracking-wider mt-0.5 truncate max-w-[130px]">
+                    Acc: {currentUser?.accountNumber}
+                  </span>
+                </div>
+              </div>
+
               <button
                 onClick={() => {
                   setSidebarOpen(false);

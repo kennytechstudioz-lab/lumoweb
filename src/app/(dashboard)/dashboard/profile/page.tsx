@@ -72,7 +72,11 @@ export default function UserProfilePage() {
       setProfilePicture(data.profilePicture || '');
       setIdType(data.idType || 'Passport');
       if (data.passport) {
-        setIdCardFileName(data.passport);
+        setIdCardFile(data.passport);
+        const defaultName = (typeof data.passport === 'string' && (data.passport.startsWith('data:application/pdf') || data.passport.toLowerCase().endsWith('.pdf')))
+          ? 'Identity_Document.pdf'
+          : 'Uploaded_ID_Card.jpg';
+        setIdCardFileName((prev) => (prev && !prev.startsWith('data:') ? prev : defaultName));
       }
 
       // Convert timestamp to YYYY-MM-DD if present
@@ -135,25 +139,35 @@ export default function UserProfilePage() {
 
       const dobTimestamp = dob ? new Date(dob).getTime() : 0;
 
+      const payload: any = {
+        fullName,
+        phoneNumber,
+        country,
+        state,
+        city,
+        address,
+        zipCode,
+        gender,
+        occupation,
+        dob: dobTimestamp,
+        profilePicture,
+      };
+
+      // Also include document and idType if uploaded so clicking Save saves everything!
+      if (idCardFile) {
+        payload.passport = idCardFile;
+      }
+      if (idType) {
+        payload.idType = idType;
+      }
+
       const res = await fetch(`${apiUrl}/user/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          fullName,
-          phoneNumber,
-          country,
-          state,
-          city,
-          address,
-          zipCode,
-          gender,
-          occupation,
-          dob: dobTimestamp,
-          profilePicture,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -169,7 +183,10 @@ export default function UserProfilePage() {
         } catch (err) {}
       }
 
-      showToast('Account details updated successfully!', 'success');
+      // Notify header/navbar to immediately show the updated photo
+      window.dispatchEvent(new Event('userUpdated'));
+
+      showToast('Account details and documents updated successfully!', 'success');
       fetchProfileData();
     } catch (err: any) {
       showToast(err.message || 'Error updating profile details', 'error');
@@ -193,20 +210,29 @@ export default function UserProfilePage() {
 
       const passportValue = idCardFile || idCardFileName;
 
+      const payload: any = {
+        passport: passportValue,
+        idType,
+      };
+
+      if (profilePicture) {
+        payload.profilePicture = profilePicture;
+      }
+
       const res = await fetch(`${apiUrl}/user/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          passport: passportValue,
-          idType,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'KYC submission failed');
+
+      // Notify header/navbar to immediately show the updated photo
+      window.dispatchEvent(new Event('userUpdated'));
 
       showToast('Identity document submitted successfully! Account is under review.', 'success');
       fetchProfileData();
@@ -353,7 +379,23 @@ export default function UserProfilePage() {
 
                 {/* Upload ID Card Document Box */}
                 <div className="flex flex-col gap-1.5 text-xs">
-                  <label className="font-bold text-slate-700 uppercase text-[10px]">Upload Document / ID Card</label>
+                  <div className="flex items-center justify-between">
+                    <label className="font-bold text-slate-700 uppercase text-[10px]">Upload Document / ID Card</label>
+                    {(idCardFile || profile?.passport) && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIdCardFile(null);
+                          setIdCardFileName('');
+                          if (profile) profile.passport = '';
+                        }}
+                        className="text-[10px] text-red-500 hover:text-red-700 font-bold underline cursor-pointer"
+                      >
+                        Remove Document
+                      </button>
+                    )}
+                  </div>
                   
                   <div className="border-2 border-dashed border-slate-200 hover:border-primary/50 rounded-xl p-4 text-center flex flex-col items-center justify-center min-h-[160px] transition-all cursor-pointer relative bg-slate-50 overflow-hidden group">
                     <input
@@ -364,25 +406,37 @@ export default function UserProfilePage() {
                     />
                     
                     {(idCardFile || profile?.passport) ? (
-                      <div className="relative w-full h-36 flex flex-col items-center justify-center overflow-hidden rounded-lg">
-                        {((idCardFile || profile?.passport).startsWith('data:image') || (idCardFile || profile?.passport).startsWith('http') || (idCardFile || profile?.passport).length > 200) ? (
-                          <img 
-                            src={idCardFile || profile?.passport} 
-                            alt="ID Card Preview" 
-                            className="w-full h-full object-cover rounded-lg border border-slate-200 shadow-xs" 
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center gap-2 p-4 bg-white border border-slate-200 rounded-lg w-full">
-                            <FileText size={32} className="text-primary" />
-                            <span className="font-bold text-xs text-slate-800 truncate max-w-full">
-                              {idCardFileName || 'ID Document Uploaded'}
-                            </span>
-                          </div>
-                        )}
+                      <div className="relative w-full h-40 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-slate-100">
+                        {(() => {
+                          const docData = idCardFile || profile?.passport;
+                          const isPdf = typeof docData === 'string' && (docData.startsWith('data:application/pdf') || docData.toLowerCase().endsWith('.pdf'));
 
-                        <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1 text-white p-2 rounded-lg">
+                          if (isPdf) {
+                            return (
+                              <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white border border-slate-200 rounded-lg w-full h-full">
+                                <FileText size={38} className="text-primary" />
+                                <span className="font-bold text-xs text-slate-800 truncate max-w-[200px]">
+                                  {idCardFileName && !idCardFileName.startsWith('data:') ? idCardFileName : 'Identity_Document.pdf'}
+                                </span>
+                                <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                                  PDF Document Attached
+                                </span>
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <img 
+                              src={docData} 
+                              alt="ID Document Preview" 
+                              className="w-full h-full object-cover rounded-lg border border-slate-200 shadow-xs" 
+                            />
+                          );
+                        })()}
+
+                        <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1 text-white p-2 rounded-lg pointer-events-none">
                           <Camera size={22} />
-                          <span className="text-[11px] font-bold">Click to Change ID Image</span>
+                          <span className="text-[11px] font-bold">Click or Drag to Replace Document</span>
                         </div>
                       </div>
                     ) : (
@@ -393,9 +447,9 @@ export default function UserProfilePage() {
                       </div>
                     )}
 
-                    {idCardFileName && (
+                    {idCardFileName && !idCardFileName.startsWith('data:') && (
                       <div className="mt-2 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold px-3 py-1 rounded-full truncate max-w-full">
-                        Selected: {idCardFileName}
+                        Attached: {idCardFileName}
                       </div>
                     )}
                   </div>
