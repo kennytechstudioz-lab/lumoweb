@@ -140,16 +140,16 @@ export default function UserTransactionsPage() {
             <p className="text-xs text-slate-400 max-w-sm">No transaction records match your search or filter requirements.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto scrollbar-thin">
+            <table className="w-full min-w-[720px] text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
-                  <th className="py-3.5 px-6">Type</th>
-                  <th className="py-3.5 px-6">Transaction ID / Reference</th>
-                  <th className="py-3.5 px-6">Sender / Recipient</th>
-                  <th className="py-3.5 px-6">Date & Time</th>
-                  <th className="py-3.5 px-6 text-right">Amount</th>
-                  <th className="py-3.5 px-6 text-center">Status</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Type</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Transaction ID / Reference</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Sender / Recipient</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Date & Time</th>
+                  <th className="py-3.5 px-6 text-right whitespace-nowrap">Amount</th>
+                  <th className="py-3.5 px-6 text-center whitespace-nowrap">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-xs">

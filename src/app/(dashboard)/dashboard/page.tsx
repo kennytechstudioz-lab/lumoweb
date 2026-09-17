@@ -394,7 +394,7 @@ export default function DashboardOverview() {
             className="w-full py-3.5 px-4 bg-primary hover:bg-red-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 group cursor-pointer text-center mt-1"
           >
             <CreditCard size={16} />
-            <span>Apply for Access Debit Card</span>
+            <span>Apply for Lumo Debit Card</span>
             <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -402,7 +402,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* 4. Recent Transactions Ledger */}
-      <div className="bg-white rounded-2xl border border-slate-200 px-[10px] py-6 sm:p-8 shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-200 px-4 py-6 sm:p-8 shadow-sm">
         <div className="flex justify-between items-center mb-6 pb-3 border-b border-slate-100">
           <h3 className="font-bold text-slate-900 text-base uppercase tracking-wider">
             Latest Transactions
@@ -417,21 +417,26 @@ export default function DashboardOverview() {
             No transactions found on this account ledger.
           </p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+          <div className="overflow-x-auto scrollbar-thin pb-2 -mx-2 sm:mx-0 px-2 sm:px-0">
+            <table className="w-full min-w-[640px] text-left border-collapse text-xs sm:text-sm">
               <thead>
                 <tr className="text-slate-400 uppercase font-bold text-[10px] tracking-wider border-b border-slate-100">
-                  <th className="pb-3">Type</th>
-                  <th className="pb-3">Beneficiary/Sender</th>
-                  <th className="pb-3">Date</th>
-                  <th className="pb-3">Status</th>
-                  <th className="pb-3 text-right">Amount</th>
+                  <th className="pb-3 pr-4 whitespace-nowrap min-w-[130px]">Type</th>
+                  <th className="pb-3 px-4 whitespace-nowrap min-w-[170px]">Beneficiary / Sender</th>
+                  <th className="pb-3 px-4 whitespace-nowrap min-w-[120px]">Date</th>
+                  <th className="pb-3 px-4 whitespace-nowrap min-w-[100px]">Status</th>
+                  <th className="pb-3 pl-4 text-right whitespace-nowrap min-w-[120px]">Amount</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {transactions.slice(0, 5).map((tx) => {
                   const isDebit = tx.transactionType.includes('Transfer') || tx.transactionType === 'Debit';
-                  const dateStr = new Date(tx.time).toLocaleDateString(undefined, {
+                  
+                  // Fix 1970 date bug: if timestamp is in seconds (< 10000000000), multiply by 1000
+                  const rawTime = tx.time || tx.createdAt;
+                  const numTime = typeof rawTime === 'number' ? rawTime : parseInt(rawTime);
+                  const timestampMs = !isNaN(numTime) && numTime < 10000000000 ? numTime * 1000 : (rawTime || Date.now());
+                  const dateStr = new Date(timestampMs).toLocaleDateString(undefined, {
                     month: 'short',
                     day: 'numeric',
                     year: 'numeric',
@@ -439,28 +444,32 @@ export default function DashboardOverview() {
 
                   return (
                     <tr key={tx._id} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-4 font-bold flex items-center gap-2">
-                        <div className={`p-1.5 rounded-full ${
+                      <td className="py-4 pr-4 font-bold flex items-center gap-2 whitespace-nowrap">
+                        <div className={`p-1.5 rounded-full flex-shrink-0 ${
                           isDebit ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-600'
                         }`}>
                           {isDebit ? <ArrowUpRight size={14} /> : <ArrowDownLeft size={14} />}
                         </div>
-                        <span>{tx.transactionType}</span>
+                        <span className="truncate max-w-[120px]">{tx.transactionType}</span>
                       </td>
-                      <td className="py-4 text-slate-600">
-                        {isDebit ? tx.receiverName || 'External Account' : tx.senderName || 'Deposit Desk'}
+                      <td className="py-4 px-4 text-slate-600 whitespace-nowrap">
+                        <span className="truncate max-w-[160px] inline-block font-medium">
+                          {isDebit ? tx.receiverName || 'External Account' : tx.senderName || 'Deposit Desk'}
+                        </span>
                       </td>
-                      <td className="py-4 text-slate-400 font-light">{dateStr}</td>
-                      <td className="py-4">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                          tx.status === 'Approved' ? 'bg-emerald-50 text-emerald-700' :
-                          tx.status === 'Pending' ? 'bg-amber-50 text-amber-700' :
-                          'bg-red-50 text-red-700'
+                      <td className="py-4 px-4 text-slate-400 font-light whitespace-nowrap font-mono text-xs">
+                        {dateStr}
+                      </td>
+                      <td className="py-4 px-4 whitespace-nowrap">
+                        <span className={`px-2.5 py-1 rounded text-[10px] font-extrabold uppercase tracking-wide inline-block ${
+                          tx.status === 'Approved' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                          tx.status === 'Pending' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                          'bg-red-50 text-red-700 border border-red-200'
                         }`}>
                           {tx.status}
                         </span>
                       </td>
-                      <td className={`py-4 font-mono font-bold text-right ${
+                      <td className={`py-4 pl-4 font-mono font-extrabold text-right whitespace-nowrap ${
                         isDebit ? 'text-red-600' : 'text-emerald-600'
                       }`}>
                         {isDebit ? '-' : '+'}{tx.symbol}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
